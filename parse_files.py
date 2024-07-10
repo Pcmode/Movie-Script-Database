@@ -1,4 +1,3 @@
-
 import subprocess
 import glob
 import os
@@ -15,8 +14,6 @@ from os.path import isfile, join, sep, getsize, exists
 from tqdm import tqdm
 
 # PROCESS ARGUMENTS
-
-
 def read_args():
     parser = argparse.ArgumentParser(
         description='Script that parses a movie script pdf/txt into its constituent classes')
@@ -168,7 +165,6 @@ def separate_dial_meta(line_str):
 def get_char_dial(script_noind, tag_vec, tag_set, char_max_words):
     char_ind = [i for i, x in enumerate(script_noind) if tag_vec[i] not in tag_set and all([y.isupper() for y in x.split()])
                 and i != 0 and i != (len(script_noind) - 1)\
-                # and len(script_noind[i - 1].split()) == 0\
                 and len(script_noind[i + 1].split()) > 0\
                 and len(x.split()) < char_max_words\
                 and any([separate_dial_meta(x)[y] for y in [0, 2]])]
@@ -574,7 +570,7 @@ def parse(file_orig, save_dir, abr_flag, tag_flag, char_flag, off_flag, save_nam
 
 
 # MAIN FUNCTION
-if __name__ == "__main__":
+def main():
     DIR_FINAL = join("scripts", "filtered")
     DIR_OUT = join("scripts", "parsed")
     DIR_OUT_FULL = join(DIR_OUT, "tagged")
@@ -626,3 +622,6 @@ if __name__ == "__main__":
             pass
     with open(join(PARSED_META), "w") as outfile:
         json.dump(meta, outfile, indent=4)
+
+if __name__ == '__main__':
+    main()
